@@ -7,6 +7,7 @@ import com.jonbott.learningrxjava.Common.fromJson
 import com.jonbott.learningrxjava.ModelLayer.PersistenceLayer.LocalDatabase
 import com.jonbott.learningrxjava.ModelLayer.PersistenceLayer.PersistenceLayer
 import com.jonbott.learningrxjava.ModelLayer.PersistenceLayer.PhotoDescription
+import com.jonbott.learningrxjava.SimpleExamples.SimpleRx
 import kotlinx.coroutines.experimental.launch
 
 class LearningRxJavaApplication: Application() {
@@ -21,6 +22,8 @@ class LearningRxJavaApplication: Application() {
         println("Simple App being used.")
 
         setupDatabase()
+
+        SimpleRx.simpleValues()
     }
 
     //region Database Setup Methods
