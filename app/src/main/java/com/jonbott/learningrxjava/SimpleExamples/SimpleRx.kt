@@ -3,6 +3,7 @@ package com.jonbott.learningrxjava.SimpleExamples
 import com.jakewharton.rxrelay2.BehaviorRelay
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
+import java.lang.IllegalArgumentException
 
 // Singleton
 object SimpleRx {
@@ -59,5 +60,16 @@ object SimpleRx {
         behaviorSubject.onNext(34)
         behaviorSubject.onNext(47)
         behaviorSubject.onNext(47) // duplicates show as a new events by default.
+
+        // onError
+        val someException = IllegalArgumentException("Some fake error")
+
+        // Throw/ push an error into the stream
+        behaviorSubject.onError(someException)
+
+        // This will never show because the whole subject will have closed down by the time it gets
+        // to this onNext event
+        behaviorSubject.onNext(29)
+
     }
 }
