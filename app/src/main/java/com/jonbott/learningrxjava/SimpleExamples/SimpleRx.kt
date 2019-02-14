@@ -61,15 +61,19 @@ object SimpleRx {
         behaviorSubject.onNext(47)
         behaviorSubject.onNext(47) // duplicates show as a new events by default.
 
-        // onError
-        val someException = IllegalArgumentException("Some fake error")
+        // (1) onError
+        // val someException = IllegalArgumentException("Some fake error")
 
         // Throw/ push an error into the stream
-        behaviorSubject.onError(someException)
+        // behaviorSubject.onError(someException)
 
         // This will never show because the whole subject will have closed down by the time it gets
         // to this onNext event
-        behaviorSubject.onNext(29)
+        // behaviorSubject.onNext(29)
+
+        // (2) onComplete
+        behaviorSubject.onComplete()
+        behaviorSubject.onNext(25) // Will never show
 
     }
 }
