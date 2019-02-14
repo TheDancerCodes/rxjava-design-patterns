@@ -1,8 +1,12 @@
 package com.jonbott.learningrxjava.SimpleExamples
 
 import com.jakewharton.rxrelay2.BehaviorRelay
+import com.jonbott.learningrxjava.Common.disposedBy
+import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
+import kotlinx.coroutines.experimental.delay
+import kotlinx.coroutines.experimental.launch
 import java.lang.IllegalArgumentException
 
 // Singleton
@@ -74,6 +78,42 @@ object SimpleRx {
         // (2) onComplete
         behaviorSubject.onComplete()
         behaviorSubject.onNext(25) // Will never show
+
+    }
+
+    // Basic Observable
+    fun basicObservable() {
+
+        // The observable
+        val observable = Observable.create<String> { observer ->
+
+            // This lambda is called for every subscriber - by default
+            println("🍄 ~~ Observable logic being triggered ~~")
+
+            // Do work on a background thread - Using Coroutines
+            launch {
+                delay(1000) // artificial delay of 1 second
+
+                // Push results that came from your work
+                observer.onNext("some value 29")
+                observer.onComplete()
+            }
+        }
+
+        // Subscribe to the observable & determine what value is coming through
+        observable.subscribe { someString ->
+            println("🍄 New Value: $someString")
+
+        }.disposedBy(bag)
+
+        // Another observer - different approach to disposing
+        val observer = observable.subscribe{ someString ->
+            println("🍄 Another Subscriber: $someString")
+        }
+
+        observer.disposedBy(bag)
+
+
 
     }
 }
