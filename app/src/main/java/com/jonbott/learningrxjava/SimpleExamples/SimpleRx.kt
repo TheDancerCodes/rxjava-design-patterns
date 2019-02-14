@@ -12,11 +12,11 @@ object SimpleRx {
     fun simpleValues() {
         println("~~~~~~simpleValues~~~~~~")
 
-        // Behaviour Relay
+        // Behaviour Relay: Imperative
         val someInfo = BehaviorRelay.createDefault("1")
         println("🙈 someInfo.value ${ someInfo.value }")
 
-        // Asigning a different variable
+        // Assigning a different variable
         val plainString = someInfo.value
         println("🙈 plainString: $plainString")
 
@@ -24,6 +24,16 @@ object SimpleRx {
         // Change the value
         someInfo.accept("2")
         println("🙈 someInfo.value ${ someInfo.value }")
+
+        // Behaviour Relay: Declarative
+        someInfo.subscribe{ newValue ->
+            println("🦄 value has changed: $newValue")
+        }
+
+        // Change value
+        someInfo.accept("3")
+
+        // NOTE: Relays will never receive onError & onComplete events
     }
 
 }
