@@ -2,10 +2,14 @@ package com.jonbott.learningrxjava.Activities
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.jonbott.learningrxjava.Common.disposedBy
 import com.jonbott.learningrxjava.ModelLayer.Entities.Posting
 import com.jonbott.learningrxjava.R
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.item_message.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -59,7 +63,16 @@ class BasicExampleActivity : AppCompatActivity() {
 
     //region Rx Code
     private fun realSingleExample() {
-
+        loadPostAsSingle().observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({ posting ->
+                    userIdTextView.text = posting.title
+                    bodyTextView.text = posting.body
+                }, { error ->
+                    println("❗️an error occured: ${ error.localizedMessage }")
+                    userIdTextView.text = ""
+                    bodyTextView.text = ""
+                }).disposedBy(bag)
     }
 
     private fun loadPostAsSingle(): Single<Posting> {
@@ -94,4 +107,15 @@ class BasicExampleActivity : AppCompatActivity() {
         }
     }
     //endregion
+
+    /**
+     * Clear the bag out & release all our subscriptions.
+     *
+     * Ensures we won't have memory leaks or issues with things that don't exist anymore.
+     */
+    override fun onDestroy() {
+        super.onDestroy()
+
+        bag.clear()
+    }
 }
