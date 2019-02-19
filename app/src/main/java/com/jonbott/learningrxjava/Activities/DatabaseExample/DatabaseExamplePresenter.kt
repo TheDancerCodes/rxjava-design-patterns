@@ -12,7 +12,7 @@ class DatabaseExamplePresenter {
     // Consume changes in the presenter
     val photoDescriptions: BehaviorRelay<List<PhotoDescription>>
         // Use a getter & return the model layers description of this
-        get() = modelLayer.photoDescriptions // Bubbling up for the lower layers
+        get() = modelLayer.photoDescriptions // Bubbling up from the lower layers
 
     init {
         launch {
