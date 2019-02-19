@@ -12,7 +12,7 @@ interface JsonPlaceHolder {
     //region Regular Web Methods
 
     @GET("/posts")
-    fun getMessages(): Call<List<Message>>
+    fun getMessages(): Call<List<Message>> // A Callable that returns a List of Messages.
 
     @GET("/posts/{articleId}")
     fun getMessage(@Path("articleId") articleId: String): Call<Message>
