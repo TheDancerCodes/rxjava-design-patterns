@@ -21,7 +21,7 @@ class ModelLayer {
     val photoDescriptions = BehaviorRelay.createDefault(listOf<PhotoDescription>())
 
     // Load messages
-    private val messages = BehaviorRelay.createDefault(listOf<Message>())
+    val messages = BehaviorRelay.createDefault(listOf<Message>())
 
     private val networkLayer = NetworkLayer.instance
     private val persistenceLayer = PersistenceLayer.shared
