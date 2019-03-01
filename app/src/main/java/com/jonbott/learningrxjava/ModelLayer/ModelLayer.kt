@@ -5,6 +5,7 @@ import com.jonbott.learningrxjava.ModelLayer.Entities.Message
 import com.jonbott.learningrxjava.ModelLayer.NetworkLayer.NetworkLayer
 import com.jonbott.learningrxjava.ModelLayer.PersistenceLayer.PersistenceLayer
 import com.jonbott.learningrxjava.ModelLayer.PersistenceLayer.PhotoDescription
+import io.reactivex.Single
 
 /**
  * Houses all of the data
@@ -56,6 +57,10 @@ class ModelLayer {
         //TODO: Notify user somehow: Toast or Snackbar
         println("❗️ Error occurred: $errorMessage")
 
+    }
+
+    fun getMessagesRx(): Single<List<Message>> {
+        return networkLayer.getMessagesRx()
     }
 
 }
