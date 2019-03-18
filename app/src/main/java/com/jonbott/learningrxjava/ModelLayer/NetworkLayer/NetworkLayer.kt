@@ -8,6 +8,7 @@ import com.jonbott.learningrxjava.Common.StringLambda
 import com.jonbott.learningrxjava.Common.VoidLambda
 import com.jonbott.learningrxjava.ModelLayer.Entities.Message
 import com.jonbott.learningrxjava.ModelLayer.Entities.Person
+import io.reactivex.Observable
 import io.reactivex.Single
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
@@ -131,6 +132,28 @@ class NetworkLayer {
 
 
     // Wrap task in Reactive Observable
+    // This pattern is used often for units of work.
+    private fun buildGetInfoNetworkCallFor(person: Person): Observable<NullBox<String>> {
+
+        return Observable.create { observer ->
+            // Execute Request - Do Actual Work Here
+            getInfoFor(person) { result ->
+
+                result.fold({ info ->
+                    observer.onNext(info)
+                    observer.onComplete() // Not using a single here coz we wil zip these together & we have to have the type of Observable to work with
+                }, { error ->
+                    // Do something with error, or just pass it on
+                    observer.onError(error)
+
+
+                })
+
+            }
+
+        }
+
+    }
 
 
     // Create a network task
