@@ -10,6 +10,7 @@ import com.jonbott.learningrxjava.ModelLayer.Entities.Message
 import com.jonbott.learningrxjava.ModelLayer.Entities.Person
 import io.reactivex.Observable
 import io.reactivex.Single
+import io.reactivex.rxkotlin.zip
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 import retrofit2.Call
@@ -129,6 +130,19 @@ class NetworkLayer {
     //region Task Example
 
     // Make one Observable for each person on the list
+    fun loadInfoFor(people: List<Person>): Observable<List<String>> {
+        // For each person, make a network call (Returns list of Observables for us to work with)
+        val networkObservables = people.map(::buildGetInfoNetworkCallFor)
+
+        // When all server results have returned zip observables into a single observable
+        return networkObservables.zip{ list ->
+
+            // Filter out all box values that are not null
+            list.filter { box -> box.value != null }
+                    .map { it.value!! }
+        }
+
+    }
 
 
     // Wrap task in Reactive Observable
