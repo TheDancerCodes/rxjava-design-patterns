@@ -2,9 +2,11 @@ package com.jonbott.learningrxjava.ModelLayer
 
 import com.jakewharton.rxrelay2.BehaviorRelay
 import com.jonbott.learningrxjava.ModelLayer.Entities.Message
+import com.jonbott.learningrxjava.ModelLayer.Entities.Person
 import com.jonbott.learningrxjava.ModelLayer.NetworkLayer.NetworkLayer
 import com.jonbott.learningrxjava.ModelLayer.PersistenceLayer.PersistenceLayer
 import com.jonbott.learningrxjava.ModelLayer.PersistenceLayer.PhotoDescription
+import io.reactivex.Observable
 import io.reactivex.Single
 
 /**
@@ -61,6 +63,11 @@ class ModelLayer {
 
     fun getMessagesRx(): Single<List<Message>> {
         return networkLayer.getMessagesRx()
+    }
+
+    // Consume the loadInfoFor() method
+    fun loadInfoFor(people: List<Person>): Observable<List<String>> {
+        return networkLayer.loadInfoFor(people)
     }
 
 }

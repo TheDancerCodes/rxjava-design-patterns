@@ -181,7 +181,7 @@ class NetworkLayer {
             val randomTime = person.age * 1000 // to milliseconds
             delay(randomTime)
 
-            print("Finished Network Call: $person")
+            println("Finished Network Call: $person")
 
             // Just randomly make odd people null
             val result = Result.of(NullBox(person.toString()))
